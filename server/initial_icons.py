@@ -1,6 +1,6 @@
 import requests
 
-BASE_URL = "http://localhost:5000/api/icons"
+BASE_URL = "http://localhost:5000/api/icons/"
 HEADERS = {
     "Content-Type": "application/json",
     "Authorization": "Bearer YOUR_API_KEY_HERE"

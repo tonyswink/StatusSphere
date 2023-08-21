@@ -1,9 +1,12 @@
 from flask import Flask
 from flask_sqlalchemy import SQLAlchemy
+from flask_migrate import Migrate
 from config import Config
+import logging
 
 # Initialize extensions without binding them to a specific app
 db = SQLAlchemy()
+migrate = Migrate()
 
 def create_app():
     # Create and configure the Flask app
@@ -12,8 +15,29 @@ def create_app():
 
     # Bind extensions to the app
     db.init_app(app)
+    migrate.init_app(app, db)
+
+    # Configure logging
+    configure_logging(app)
 
     # Register blueprints
+    register_blueprints(app)
+
+    # It's a good practice to create the database tables from here
+    with app.app_context():
+        db.create_all()
+
+    return app
+
+def configure_logging(app):
+    if not app.debug:
+        # Configure logging for production
+        app.logger.setLevel(logging.INFO)
+        stream_handler = logging.StreamHandler()
+        stream_handler.setLevel(logging.INFO)
+        app.logger.addHandler(stream_handler)
+
+def register_blueprints(app):
     from app.routes.status import status_blueprint
     app.register_blueprint(status_blueprint, url_prefix='/api/statuses')
 
@@ -22,9 +46,3 @@ def create_app():
 
     from app.routes.colours import colours_blueprint
     app.register_blueprint(colours_blueprint, url_prefix='/api/colours')
-
-    # It's a good practice to create the database tables from here
-    with app.app_context():
-        db.create_all()
-
-    return app
