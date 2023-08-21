@@ -1,0 +1,8 @@
+---
+id: StatusSphere
+name: StatusSphere
+summary: Real-time office status display and update.
+desc: StatusSphere is a Tidbyt app that allows users to easily display and update their current workplace status.
+author: Tony Swink
+fileName: StatusSphere.star
+packageName: StatusSphere
