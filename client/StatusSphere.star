@@ -64,7 +64,7 @@ def retrieve_color_options():
     if response and response.status_code == 200:
         data = response.json()
         color_options = [schema.Option(display=color['name'], value=color['value']) for color in data]
-        cache.set("color_options_key", json.encode(color_options), ttl_seconds=60*60)  # Cache for an hour
+        cache.set("color_options_key", json.encode(color_options), ttl_seconds=30)  # Cache for an hour
         return color_options
     
     # Return a default or empty list if there's an error
@@ -83,7 +83,7 @@ def retrieve_icon_options():
     if response and response.status_code == 200:
         data = response.json()
         icon_options = [schema.Option(display=icon['name'], value=icon['value']) for icon in data]
-        cache.set("icon_options_key", json.encode(icon_options), ttl_seconds=60*60)  # Cache for an hour
+        cache.set("icon_options_key", json.encode(icon_options), ttl_seconds=30)  # Cache for an hour
         return icon_options
     
     # Return a default or empty list if there's an error
@@ -184,22 +184,22 @@ def get_schema():
                 desc = "Enter a custom status.",
                 icon = "font",
             ),
-            schema.Dropdown(
-                id = "color",
-                name = "Color",
-                desc = "Select a custom status color.",
-                icon = "palette",
-                default = color_options[1].value,
-                options = color_options,
-            ),
-            schema.Dropdown(
-                id = "icon",
-                name = "Icon",
-                desc = "Select a custom status icon.",
-                icon = "icons",
-                default = icon_options[6].value,
-                options = icon_options,
-            ),
+            # schema.Dropdown(
+            #     id = "color",
+            #     name = "Color",
+            #     desc = "Select a custom status color.",
+            #     icon = "palette",
+            #     default = color_options[1].value,
+            #     options = color_options,
+            # ),
+            # schema.Dropdown(
+            #     id = "icon",
+            #     name = "Icon",
+            #     desc = "Select a custom status icon.",
+            #     icon = "icons",
+            #     default = icon_options[6].value,
+            #     options = icon_options,
+            # ),
             schema.Text(
                 id = "message",
                 name = "Message",
